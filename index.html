@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYASEE AI SOLUTIONS PRIVATE LIMITED</title>
+  <link rel="icon" href="logo.png" type="image/png">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #dbeafe 0%, #f8fafc 55%, #ffffff 100%);
+      color: #1e293b;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    section {
+      padding: 18px 16px;
+    }
+
+    .hero-about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .hero-card,
+    .about-card {
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    }
+
+    .hero-card {
+      background: #dbeafe;
+    }
+
+    .about-card {
+      background: #eef4ff;
+    }
+
+    .about-card h2 {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 40px;
+      background: linear-gradient(to right, #146FB5, #7C3AED);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      color: #0F3D91;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      color: #146FB5;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .logo {
+      width: 150px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: linear-gradient(to right, #146FB5, #7C3AED);
+      color: white;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 18px;
+      text-decoration: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: #f8fbff;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #dbeafe;
+      transition: 0.25s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .platform-section {
+      background: linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
+      padding: 24px 16px;
+    }
+
+    .platform-inner {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.08);
+    }
+
+    .platform-heading {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .platform-description {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 28px;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    .platform-highlight {
+      padding: 22px;
+      border-radius: 18px;
+      background: #f3f7ff;
+      box-shadow: inset 0 0 0 1px rgba(20, 76, 167, 0.1);
+    }
+
+    .platform-feature-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .platform-group {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .platform-column {
+      display: contents;
+      gap: 0;
+    }
+
+    .platform-subgroup {
+      background: #f8fbff;
+      border: 1px solid #dbeafe;
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .platform-group-title {
+      margin: 0 0 16px;
+      color: #146FB5;
+      font-size: 20px;
+    }
+
+    .platform-mini-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-feature {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      background: #ffffff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+    }
+
+    .mini-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #146fb5;
+      margin-top: 6px;
+    }
+
+    .footer {
+      background: #102a43;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 18px 0;
+      font-size: 13px;
+    }
+
+    .footer small {
+      color: #94a3b8;
+    }
+
+    .light {
+      background: #eef6ff;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO + ABOUT -->
+  <section>
+    <div class="container hero-about-grid">
+      <div class="hero-card">
+        <img src="logo.png" class="logo">
+        <h1>AI-Powered Retail SaaS Platform</h1>
+        <p>Transform billing data into customer intelligence, automated engagement, and growth.</p>
+        <a href="#" class="btn">Request Demo</a>
+      </div>
+      <div class="about-card">
+        <h2>About Us</h2>
+        <p>
+          GYASEE AI SOLUTIONS PRIVATE LIMITED builds AI-Powered Retail SaaS Platform for Smart Billing,
+          Customer Engagement & Analytics. Gyasee connects billing, customer data, campaigns, and analytics into one
+          intelligent retail platform that works with your existing systems.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="light">
+    <div class="container">
+      <h2>Core Features</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Smart Billing</h3>
+          <p>Digital billing with engagement to boost repeat sales.</p>
+        </div>
+        <div class="card">
+          <h3>POS Integration</h3>
+          <p>Connect any existing POS system without disruption.</p>
+        </div>
+        <div class="card">
+          <h3>Customer Analytics</h3>
+          <p>Understand your customers with actionable insights.</p>
+        </div>
+        <div class="card">
+          <h3>Loyalty & Coupons</h3>
+          <p>Reward repeat customers with offers and incentives.</p>
+        </div>
+        <div class="card">
+          <h3>Campaign Management</h3>
+          <p>Run multi-channel campaigns from one place.</p>
+        </div>
+        <div class="card">
+          <h3>Reports & Dashboard</h3>
+          <p>Get business insights from performance dashboards.</p>
+        </div>
+        <div class="card">
+          <h3>Hyperlocal Commerce</h3>
+          <p>Launch quick commerce-ready offers for local shoppers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section class="light">
+    <div class="container">
+      <h2>Technology Stack</h2>
+      <div class="grid grid-2">
+        <div class="card">Node.js Microservices</div>
+        <div class="card">MongoDB + Redis</div>
+        <div class="card">Next.js Frontend</div>
+        <div class="card">Cloud Infrastructure</div>
+        <div class="card">AI & Data Science</div>
+        <div class="card">Java</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM CAPABILITIES PREMIUM -->
+  <section class="platform-section">
+    <div class="container platform-inner">
+
+      <div class="platform-heading">
+        <h2>Platform Capabilities</h2>
+      </div>
+
+      <p class="platform-description">
+        Gaysee is already powering retailers in production by transforming everyday billing transactions into actionable customer intelligence,
+        automated engagement, and revenue growth systems.
+      </p>
+
+      <!-- TOP HIGHLIGHTS -->
+      <div class="platform-feature-grid">
+
+        <div class="platform-highlight" style="border-left:5px solid #146FB5;">
+          <h3>AI-Driven Retail Intelligence</h3>
+          <p>Convert billing data into real-time customer insights, segmentation, and predictive analytics.</p>
+        </div>
+
+        <div class="platform-highlight" style="border-left:5px solid #7C3AED;">
+          <h3>Automated Customer Engagement</h3>
+          <p>Trigger campaigns automatically based on purchase behavior and customer lifecycle.</p>
+        </div>
+
+        <div class="platform-highlight" style="border-left:5px solid #146FB5;">
+          <h3>Omnichannel Communication</h3>
+          <p>Deliver digital bills and campaigns through WhatsApp, SMS, and Email seamlessly.</p>
+        </div>
+
+        <div class="platform-highlight" style="border-left:5px solid #7C3AED;">
+          <h3>Scalable Multi-Store Platform</h3>
+          <p>Manage single stores to large retail chains with centralized dashboards.</p>
+        </div>
+
+      </div>
+
+      <!-- FEATURE GROUPS -->
+      <div class="platform-group">
+          <div class="platform-subgroup">
+            <h3 class="platform-group-title">Billing & POS Integration</h3>
+            <div class="platform-mini-grid">
+              <div class="mini-feature"><span class="mini-dot"></span><p>Cloud-based POS billing system</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>POS-agnostic billing ingestion (Gaysee Plugin)</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>OCR-based invoice processing for legacy systems</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Support for offline & file-based billing uploads</p></div>
+            </div>
+          </div>
+
+          <div class="platform-subgroup">
+            <h3 class="platform-group-title">Customer Intelligence</h3>
+            <div class="platform-mini-grid">
+              <div class="mini-feature"><span class="mini-dot"></span><p>Automatic customer capture from every bill</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Customer segmentation & cohort analysis</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Customer lifetime value tracking</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Repeat purchase prediction</p></div>
+            </div>
+          </div>
+
+          <div class="platform-subgroup">
+            <h3 class="platform-group-title">Engagement & Campaign Automation</h3>
+            <div class="platform-mini-grid">
+              <div class="mini-feature"><span class="mini-dot"></span><p>Smart digital receipts via WhatsApp, SMS, Email</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Real-time campaign automation</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Behavior-triggered notifications</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Promotions embedded in digital bills</p></div>
+            </div>
+          </div>
+
+          <div class="platform-subgroup">
+            <h3 class="platform-group-title">Loyalty & Rewards Engine</h3>
+            <div class="platform-mini-grid">
+              <div class="mini-feature"><span class="mini-dot"></span><p>Advanced loyalty program management</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Referral-based reward systems</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Event & purchase-based rewards</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Conditional reward rules (bill/line-item level)</p></div>
+            </div>
+          </div>
+
+          <div class="platform-subgroup">
+            <h3 class="platform-group-title">Analytics & Insights</h3>
+            <div class="platform-mini-grid">
+              <div class="mini-feature"><span class="mini-dot"></span><p>Retail analytics dashboards</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Sales trend & demand pattern analysis</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Product performance insights</p></div>
+              <div class="mini-feature"><span class="mini-dot"></span><p>Automated business reports</p></div>
+            </div>
+          </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section>
+    <div class="container">
+      <h2>Founding Team</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Gyanendra Singh</h3>
+          <p>Founder & Director</p>
+        </div>
+        <div class="card">
+          <h3>Seema Singh</h3>
+          <p>Director</p>
+        </div>
+        <div class="card">
+          <h3>Tridip Rong</h3>
+          <p>Sr. Software Developer</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>GYASEE AI SOLUTIONS PRIVATE LIMITED</p>
+      <small>© 2026 GYASEE AI SOLUTIONS PRIVATE LIMITED. All rights reserved.</small>
+    </div>
+  </footer>
+
+</body>
+
+</html>
