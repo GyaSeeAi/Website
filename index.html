@@ -8,336 +8,2367 @@
   <link rel="icon" href="logo.png" type="image/png">
 
   <style>
+    :root {
+      --bg: #030712;
+      --bg-soft: #07111f;
+      --panel: rgba(12, 20, 37, 0.72);
+      --panel-strong: rgba(15, 23, 42, 0.88);
+      --stroke: rgba(148, 163, 184, 0.18);
+      --stroke-strong: rgba(125, 211, 252, 0.35);
+      --text: #f8fafc;
+      --muted: #a8b3c7;
+      --dim: #64748b;
+      --blue: #38bdf8;
+      --blue-deep: #146fb5;
+      --violet: #8b5cf6;
+      --purple: #7c3aed;
+      --green: #34d399;
+      --pink: #f472b6;
+      --radius: 24px;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      --glow-blue: 0 0 40px rgba(56, 189, 248, 0.34);
+      --glow-purple: 0 0 46px rgba(124, 58, 237, 0.36);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
+      min-height: 100vh;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(180deg, #dbeafe 0%, #f8fafc 55%, #ffffff 100%);
-      color: #1e293b;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 16% 8%, rgba(20, 111, 181, 0.42), transparent 28rem),
+        radial-gradient(circle at 82% 4%, rgba(124, 58, 237, 0.34), transparent 28rem),
+        linear-gradient(180deg, #020617 0%, #07111f 48%, #020617 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 16px;
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      content: "";
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 82%);
+      animation: gridDrift 24s linear infinite;
     }
 
-    section {
-      padding: 18px 16px;
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      content: "";
+      background:
+        radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 18%), rgba(56, 189, 248, 0.13), transparent 18rem),
+        linear-gradient(120deg, rgba(56, 189, 248, 0.04), rgba(124, 58, 237, 0.04), rgba(20, 111, 181, 0.04));
     }
 
-    .hero-about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .hero-card,
-    .about-card {
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
-    }
-
-    .hero-card {
-      background: #dbeafe;
-    }
-
-    .about-card {
-      background: #eef4ff;
-    }
-
-    .about-card h2 {
-      margin-top: 0;
-    }
-
-    h1 {
-      margin: 0 0 14px;
-      font-size: 40px;
-      background: linear-gradient(to right, #146FB5, #7C3AED);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    h2 {
-      margin: 0 0 16px;
-      font-size: 28px;
-      color: #0F3D91;
-    }
-
-    h3 {
-      margin: 0 0 10px;
-      color: #146FB5;
-    }
-
-    p {
-      margin: 0 0 14px;
-      color: #475569;
-      line-height: 1.6;
-    }
-
-    .logo {
-      width: 150px;
-      margin-bottom: 12px;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      background: linear-gradient(to right, #146FB5, #7C3AED);
-      color: white;
-      border-radius: 10px;
-      display: inline-block;
-      margin-top: 18px;
+    a {
+      color: inherit;
       text-decoration: none;
     }
 
-    .grid {
-      display: grid;
-      gap: 12px;
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
     }
 
-    .grid-2 {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    img {
+      max-width: 100%;
+      display: block;
     }
 
-    .card {
-      background: #f8fbff;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid #dbeafe;
-      transition: 0.25s;
+    button {
+      font: inherit;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .platform-section {
-      background: linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
-      padding: 24px 16px;
+    .orb {
+      position: absolute;
+      width: 28rem;
+      height: 28rem;
+      border-radius: 999px;
+      filter: blur(72px);
+      opacity: 0.36;
+      animation: orbitGlow 18s ease-in-out infinite alternate;
     }
 
-    .platform-inner {
-      background: #ffffff;
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.08);
+    .orb-one {
+      top: 7%;
+      left: -10rem;
+      background: #146fb5;
     }
 
-    .platform-heading {
-      text-align: center;
-      margin-bottom: 14px;
+    .orb-two {
+      top: 27%;
+      right: -12rem;
+      background: #7c3aed;
+      animation-delay: -6s;
     }
 
-    .platform-description {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto 28px;
-      color: #475569;
-      line-height: 1.7;
+    .orb-three {
+      bottom: 6%;
+      left: 28%;
+      width: 20rem;
+      height: 20rem;
+      background: #0891b2;
+      animation-delay: -11s;
     }
 
-    .platform-highlight {
-      padding: 22px;
-      border-radius: 18px;
-      background: #f3f7ff;
-      box-shadow: inset 0 0 0 1px rgba(20, 76, 167, 0.1);
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    .platform-feature-grid {
-      display: grid;
-      gap: 16px;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(125, 211, 252, 0.85);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.85);
+      animation: particleFloat var(--duration) linear infinite;
+      opacity: var(--opacity);
     }
 
-    .platform-group {
-      margin-top: 26px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section {
+      position: relative;
+      padding: 104px 0;
+    }
+
+    .section.compact {
+      padding: 78px 0;
+    }
+
+    .section::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(1180px, calc(100% - 32px));
+      height: 1px;
+      content: "";
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.22), rgba(124, 58, 237, 0.22), transparent);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(24px);
+      background: rgba(2, 6, 23, 0.68);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .nav-inner {
+      display: flex;
+      min-height: 76px;
+      align-items: center;
+      justify-content: space-between;
       gap: 24px;
     }
 
-    .platform-column {
-      display: contents;
-      gap: 0;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .platform-subgroup {
-      background: #f8fbff;
-      border: 1px solid #dbeafe;
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      padding: 4px;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: var(--glow-blue);
+    }
+
+    .brand-copy {
+      display: grid;
+      line-height: 1.1;
+    }
+
+    .brand-name {
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-tag {
+      margin-top: 4px;
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .nav-links a {
+      transition: color 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      color: #ffffff;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+    }
+
+    .nav-toggle span,
+    .nav-toggle::before,
+    .nav-toggle::after {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
+      content: "";
+      border-radius: 999px;
+      background: #ffffff;
+      transition: 200ms ease;
+    }
+
+    .nav.is-open .nav-toggle span {
+      opacity: 0;
+    }
+
+    .nav.is-open .nav-toggle::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .nav.is-open .nav-toggle::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      overflow: hidden;
+      padding: 12px 18px;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+      font-weight: 750;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+      white-space: nowrap;
+    }
+
+    .btn::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: linear-gradient(120deg, rgba(56, 189, 248, 0.22), rgba(124, 58, 237, 0.18), rgba(244, 114, 182, 0.16));
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(125, 211, 252, 0.5);
+      box-shadow: 0 18px 44px rgba(56, 189, 248, 0.18);
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn-primary {
+      border-color: rgba(125, 211, 252, 0.42);
+      background: linear-gradient(135deg, #146fb5, #7c3aed);
+      box-shadow: var(--glow-purple), 0 20px 54px rgba(0, 0, 0, 0.34);
+    }
+
+    .btn-primary::after {
+      position: absolute;
+      inset: -80% -20%;
+      content: "";
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.34), transparent);
+      transform: translateX(-120%) rotate(12deg);
+      animation: buttonShine 4s ease-in-out infinite;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      color: #dff7ff;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.72);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.8);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 84px 0 96px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(410px, 0.86fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      color: #ffffff;
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 840px;
+      margin-top: 22px;
+      font-size: clamp(48px, 7vw, 92px);
+      font-weight: 850;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(120deg, #ffffff 0%, #bdefff 34%, #a78bfa 70%, #f0abfc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-lede {
+      max-width: 650px;
+      margin-top: 24px;
+      color: #c5d1e5;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .hero-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 680px;
+      margin-top: 34px;
+    }
+
+    .proof-card {
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
       border-radius: 18px;
-      padding: 20px;
+      background: rgba(15, 23, 42, 0.58);
+      backdrop-filter: blur(18px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
-    .platform-group-title {
-      margin: 0 0 16px;
-      color: #146FB5;
+    .proof-number {
+      display: block;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 850;
+    }
+
+    .proof-label {
+      display: block;
+      margin-top: 6px;
+      color: var(--dim);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 650px;
+      perspective: 1200px;
+    }
+
+    .dashboard-shell {
+      position: absolute;
+      inset: 38px 0 auto;
+      overflow: hidden;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.94), rgba(3, 7, 18, 0.82));
+      box-shadow: var(--shadow), var(--glow-blue);
+      transform: rotateX(6deg) rotateY(-8deg);
+      transform-style: preserve-3d;
+      animation: dashboardFloat 7s ease-in-out infinite;
+    }
+
+    .dashboard-shell::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        radial-gradient(circle at 20% 0%, rgba(56, 189, 248, 0.16), transparent 28%),
+        radial-gradient(circle at 95% 12%, rgba(124, 58, 237, 0.2), transparent 32%);
+      pointer-events: none;
+    }
+
+    .window-bar {
+      position: relative;
+      display: flex;
+      height: 48px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #475569;
+    }
+
+    .window-dots span:nth-child(1) {
+      background: #fb7185;
+    }
+
+    .window-dots span:nth-child(2) {
+      background: #fbbf24;
+    }
+
+    .window-dots span:nth-child(3) {
+      background: #34d399;
+    }
+
+    .window-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #bbf7d0;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .dashboard-product {
+      position: relative;
+      padding: 10px;
+    }
+
+    .dashboard-product img,
+    .product-showcase img,
+    .product-thumb img,
+    .product-panel img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      background: #020617;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+    }
+
+    .dashboard-product img {
+      height: 390px;
+      object-fit: cover;
+      object-position: left top;
+    }
+
+    .dashboard-body {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.75fr 1.25fr;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .side-panel,
+    .main-panel,
+    .terminal-panel,
+    .floating-card,
+    .glass-card {
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      background: rgba(15, 23, 42, 0.68);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+    }
+
+    .side-panel {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+      min-height: 330px;
+      padding: 14px;
+      border-radius: 20px;
+    }
+
+    .mini-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      color: #dbeafe;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.045);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .mini-nav.active {
+      background: linear-gradient(135deg, rgba(20, 111, 181, 0.42), rgba(124, 58, 237, 0.34));
+      box-shadow: 0 0 28px rgba(56, 189, 248, 0.15);
+    }
+
+    .icon-mark {
+      display: grid;
+      width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 10px;
+      color: #e0f2fe;
+      background: rgba(56, 189, 248, 0.1);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .main-panel {
+      min-height: 330px;
+      padding: 16px;
+      border-radius: 20px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .panel-kicker {
+      color: var(--dim);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .panel-title {
+      margin-top: 6px;
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 850;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 10px;
+      color: #d1fae5;
+      border: 1px solid rgba(52, 211, 153, 0.28);
+      border-radius: 999px;
+      background: rgba(6, 78, 59, 0.24);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .chart {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      align-items: end;
+      gap: 9px;
+      height: 140px;
+      padding: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        rgba(2, 6, 23, 0.32);
+      background-size: 100% 35px;
+    }
+
+    .bar {
+      height: var(--h);
+      border-radius: 999px 999px 10px 10px;
+      background: linear-gradient(180deg, #67e8f9, #146fb5 45%, #7c3aed);
+      box-shadow: 0 0 26px rgba(56, 189, 248, 0.3);
+      transform-origin: bottom;
+      animation: growBar 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) both, pulseBar 3.2s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .metric {
+      padding: 13px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .metric strong {
+      display: block;
+      color: #ffffff;
+      font-size: 19px;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    .terminal-panel {
+      position: absolute;
+      right: -22px;
+      bottom: 28px;
+      width: min(355px, 74%);
+      padding: 16px;
+      border-radius: 18px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42), var(--glow-purple);
+      animation: floatSmall 6s ease-in-out infinite;
+    }
+
+    .terminal-line {
+      display: flex;
+      gap: 10px;
+      color: #c4b5fd;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .terminal-line span:first-child {
+      color: #38bdf8;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 2;
+      width: 190px;
+      padding: 15px;
+      border-radius: 18px;
+    }
+
+    .floating-card strong {
+      display: block;
+      color: #ffffff;
+      font-size: 24px;
+    }
+
+    .floating-card span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .floating-one {
+      top: 4px;
+      right: 36px;
+      animation: floatSmall 5.4s ease-in-out infinite;
+    }
+
+    .floating-two {
+      bottom: 118px;
+      left: -34px;
+      animation: floatSmall 6.2s ease-in-out infinite reverse;
+    }
+
+    .cloud-node {
+      position: absolute;
+      right: 20px;
+      bottom: 8px;
+      display: grid;
+      width: 142px;
+      height: 142px;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.17), rgba(15, 23, 42, 0.6) 62%, transparent 64%);
+      box-shadow: var(--glow-blue);
+      animation: spinSlow 18s linear infinite;
+    }
+
+    .cloud-node::before,
+    .cloud-node::after {
+      position: absolute;
+      inset: 22px;
+      content: "";
+      border: 1px dashed rgba(167, 139, 250, 0.36);
+      border-radius: 999px;
+    }
+
+    .cloud-node::after {
+      inset: 45px;
+      border-color: rgba(52, 211, 153, 0.32);
+    }
+
+    .cloud-core {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #38bdf8, #7c3aed);
+      box-shadow: 0 0 34px rgba(56, 189, 248, 0.65);
+    }
+
+    .section-heading {
+      display: grid;
+      max-width: 780px;
+      gap: 16px;
+      margin-bottom: 38px;
+    }
+
+    .section-heading.centered {
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+      justify-items: center;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(34px, 4.8vw, 58px);
+      font-weight: 850;
+    }
+
+    .section-heading p {
+      font-size: 17px;
+    }
+
+    .kicker {
+      color: #7dd3fc;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .glass-card::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.16), transparent 38%, rgba(124, 58, 237, 0.15));
+      opacity: 0;
+      transition: opacity 220ms ease;
+      pointer-events: none;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(125, 211, 252, 0.38);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.32), 0 0 34px rgba(56, 189, 248, 0.13);
+    }
+
+    .glass-card:hover::before {
+      opacity: 1;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .about-card {
+      padding: 30px;
+    }
+
+    .about-card h2 {
+      margin-bottom: 18px;
+      font-size: clamp(30px, 4vw, 46px);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .why-card,
+    .feature-card,
+    .tech-card,
+    .capability-card,
+    .automation-card,
+    .security-card {
+      padding: 24px;
+    }
+
+    .card-icon {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      margin-bottom: 18px;
+      border: 1px solid rgba(125, 211, 252, 0.26);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(124, 58, 237, 0.18));
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.18);
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .card-icon.purple {
+      border-color: rgba(167, 139, 250, 0.32);
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
+    }
+
+    .glass-card h3 {
+      position: relative;
+      margin-bottom: 12px;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .feature-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 248px;
+    }
+
+    .product-thumb {
+      position: relative;
+      margin-top: auto;
+      padding-top: 18px;
+    }
+
+    .product-thumb img {
+      height: 150px;
+      object-fit: cover;
+      object-position: top;
+      border: 1px solid rgba(125, 211, 252, 0.16);
+      border-radius: 16px;
+      opacity: 0.92;
+      transition: transform 220ms ease, opacity 220ms ease;
+    }
+
+    .feature-card:hover .product-thumb img,
+    .product-panel:hover img,
+    .product-showcase:hover img {
+      transform: scale(1.025);
+      opacity: 1;
+    }
+
+    .platform-section {
+      overflow: hidden;
+    }
+
+    .product-showcase {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+      padding: 12px;
+      border-radius: 30px;
+    }
+
+    .product-showcase::after,
+    .product-panel::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.08) 48%, transparent 58%);
+      transform: translateX(-120%);
+      transition: transform 650ms ease;
+    }
+
+    .product-showcase:hover::after,
+    .product-panel:hover::after {
+      transform: translateX(120%);
+    }
+
+    .product-showcase img {
+      max-height: 620px;
+      object-fit: cover;
+      object-position: top left;
+      border: 1px solid rgba(125, 211, 252, 0.16);
+    }
+
+    .platform-studio {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .studio-panel {
+      padding: 26px;
+      border-radius: 28px;
+    }
+
+    .workflow {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .workflow-step {
+      display: grid;
+      grid-template-columns: 46px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .workflow-step strong {
+      display: block;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .workflow-step span {
+      color: var(--dim);
+      font-size: 13px;
+    }
+
+    .signal {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(52, 211, 153, 0.76);
+    }
+
+    .platform-visual {
+      display: grid;
+      gap: 16px;
+      padding: 22px;
+      border-radius: 28px;
+      min-height: 520px;
+    }
+
+    .analytics-top {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 14px;
+    }
+
+    .analytics-box {
+      padding: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .radial {
+      position: relative;
+      width: 168px;
+      max-width: 100%;
+      aspect-ratio: 1;
+      margin: 8px auto 0;
+      border-radius: 999px;
+      background: conic-gradient(from 160deg, #38bdf8 0 72%, rgba(124, 58, 237, 0.55) 72% 88%, rgba(148, 163, 184, 0.18) 88% 100%);
+      box-shadow: 0 0 44px rgba(56, 189, 248, 0.2);
+      animation: radialGlow 4s ease-in-out infinite;
+    }
+
+    .radial::after {
+      position: absolute;
+      inset: 18px;
+      display: grid;
+      place-items: center;
+      content: "88%";
+      border-radius: 999px;
+      background: #06101e;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 850;
+    }
+
+    .line-chart {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 18px;
+      background:
+        linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+      background-size: 100% 45px, 48px 100%;
+    }
+
+    .line-chart svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke: url(#lineGradient);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 520;
+      stroke-dashoffset: 520;
+      animation: drawLine 2s ease forwards;
+    }
+
+    .chart-fill {
+      fill: url(#areaGradient);
+      opacity: 0.72;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .capability-card {
+      min-height: 190px;
+    }
+
+    .group-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .subgroup {
+      padding: 22px;
+    }
+
+    .subgroup h3 {
+      color: #dff7ff;
       font-size: 20px;
     }
 
-    .platform-mini-grid {
+    .mini-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
+      margin-top: 18px;
     }
 
     .mini-feature {
       display: grid;
-      grid-template-columns: 14px 1fr;
+      grid-template-columns: 12px 1fr;
       gap: 12px;
-      align-items: flex-start;
-      padding: 14px 16px;
-      background: #ffffff;
-      border: 1px solid #dbeafe;
-      border-radius: 12px;
+      align-items: start;
+      padding: 12px 13px;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
     }
 
     .mini-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #146fb5;
-      margin-top: 6px;
+      width: 8px;
+      height: 8px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: #38bdf8;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
+    }
+
+    .mini-feature p {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .automation-grid,
+    .infra-grid,
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .automation-card,
+    .security-card {
+      min-height: 240px;
+    }
+
+    .product-panel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .product-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 12px;
+      border-radius: 28px;
+    }
+
+    .product-panel img {
+      max-height: 520px;
+      object-fit: contain;
+      border: 1px solid rgba(125, 211, 252, 0.16);
+    }
+
+    .product-panel.wide img {
+      max-height: 460px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .automation-rail {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .rail-node {
+      position: relative;
+      display: grid;
+      min-height: 104px;
+      place-items: center;
+      padding: 16px 10px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.72);
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .rail-node::after {
+      position: absolute;
+      top: 50%;
+      right: -12px;
+      width: 14px;
+      height: 2px;
+      content: "";
+      background: linear-gradient(90deg, #38bdf8, #7c3aed);
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.6);
+    }
+
+    .rail-node:last-child::after {
+      display: none;
+    }
+
+    .infra-map {
+      position: relative;
+      min-height: 420px;
+      padding: 28px;
+      border-radius: 28px;
+    }
+
+    .map-grid {
+      position: absolute;
+      inset: 24px;
+      border-radius: 24px;
+      background-image:
+        radial-gradient(circle, rgba(125, 211, 252, 0.32) 1px, transparent 1px),
+        linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+      background-size: 42px 42px, 64px 64px, 64px 64px;
+      opacity: 0.8;
+    }
+
+    .map-node {
+      position: absolute;
+      display: grid;
+      width: 128px;
+      min-height: 82px;
+      place-items: center;
+      padding: 12px;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.86);
+      box-shadow: 0 0 36px rgba(56, 189, 248, 0.14);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 850;
+      text-align: center;
+      animation: floatSmall 6s ease-in-out infinite;
+    }
+
+    .node-a {
+      top: 54px;
+      left: 10%;
+    }
+
+    .node-b {
+      top: 112px;
+      right: 12%;
+      animation-delay: -2s;
+    }
+
+    .node-c {
+      bottom: 64px;
+      left: 21%;
+      animation-delay: -4s;
+    }
+
+    .node-d {
+      bottom: 42px;
+      right: 20%;
+      animation-delay: -1s;
+    }
+
+    .map-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      width: 160px;
+      height: 160px;
+      place-items: center;
+      border: 1px solid rgba(167, 139, 250, 0.36);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.28), rgba(15, 23, 42, 0.82));
+      box-shadow: var(--glow-purple);
+      color: #ffffff;
+      font-weight: 900;
+      transform: translate(-50%, -50%);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+
+    .tech-card {
+      display: grid;
+      min-height: 166px;
+      place-items: center;
+      gap: 14px;
+      text-align: center;
+      animation: floatCard 6s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .tech-glyph {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.26);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(124, 58, 237, 0.18));
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .tech-card strong {
+      color: #e2e8f0;
+      line-height: 1.35;
+    }
+
+    .analytics-section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .big-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .big-stat {
+      padding: 22px;
+    }
+
+    .big-stat strong {
+      display: block;
+      color: #ffffff;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .big-stat span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+    }
+
+    .comm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .comm-showcase {
+      max-width: 760px;
+      margin: 0 auto 22px;
+    }
+
+    .comm-card {
+      padding: 28px;
+      text-align: center;
+    }
+
+    .comm-orbit {
+      position: relative;
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 20px;
+      border: 1px dashed rgba(125, 211, 252, 0.32);
+      border-radius: 999px;
+      animation: spinSlow 15s linear infinite;
+    }
+
+    .comm-orbit span {
+      position: absolute;
+      inset: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.26), rgba(124, 58, 237, 0.24));
+      color: #ffffff;
+      font-weight: 900;
+      animation: spinSlow 15s linear infinite reverse;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .team-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .avatar {
+      display: grid;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.32);
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(124, 58, 237, 0.25));
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: var(--glow-blue);
+    }
+
+    .director-role {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 7px 10px;
+      color: #c4b5fd;
+      border: 1px solid rgba(167, 139, 250, 0.22);
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.12);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .director-bio {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .team-card p {
+      margin-top: 8px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.66);
+    }
+
+    .faq-question {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px;
+      color: #ffffff;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .faq-question span:last-child {
+      display: grid;
+      min-width: 28px;
+      height: 28px;
+      place-items: center;
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 999px;
+      color: #7dd3fc;
+      transition: transform 180ms ease;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 240ms ease;
+    }
+
+    .faq-answer p {
+      padding: 0 20px 20px;
+    }
+
+    .faq-item.is-open .faq-answer {
+      max-height: 180px;
+    }
+
+    .faq-item.is-open .faq-question span:last-child {
+      transform: rotate(45deg);
+    }
+
+    .cta {
+      padding-bottom: 112px;
+    }
+
+    .cta-panel {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 68px);
+      border: 1px solid rgba(125, 211, 252, 0.24);
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(56, 189, 248, 0.22), transparent 32%),
+        radial-gradient(circle at 82% 22%, rgba(124, 58, 237, 0.25), transparent 30%),
+        rgba(15, 23, 42, 0.78);
+      box-shadow: var(--shadow), var(--glow-purple);
+      text-align: center;
+    }
+
+    .cta-panel h2 {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: clamp(36px, 5vw, 70px);
+    }
+
+    .cta-panel p {
+      max-width: 700px;
+      margin: 22px auto 0;
+      font-size: 18px;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 30px;
     }
 
     .footer {
-      background: #102a43;
+      padding: 64px 0 26px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      background:
+        radial-gradient(circle at 16% 0%, rgba(56, 189, 248, 0.14), transparent 28rem),
+        radial-gradient(circle at 82% 12%, rgba(124, 58, 237, 0.16), transparent 28rem),
+        rgba(2, 6, 23, 0.88);
       color: #cbd5e1;
-      text-align: center;
-      padding: 18px 0;
-      font-size: 13px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.9fr 0.8fr 0.8fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .footer-logo {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      padding: 5px;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: var(--glow-blue);
+    }
+
+    .footer h3,
+    .footer h4 {
+      color: #ffffff;
+    }
+
+    .footer h3 {
+      font-size: 16px;
+      letter-spacing: 0.08em;
+    }
+
+    .footer h4 {
+      margin: 0 0 16px;
+      font-size: 14px;
+    }
+
+    .footer p {
+      color: #e2e8f0;
+    }
+
+    .footer-about {
+      max-width: 420px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .footer-list {
+      display: grid;
+      gap: 11px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .footer-list a,
+    .footer-list span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      transition: color 180ms ease;
+    }
+
+    .footer-list a:hover {
+      color: #ffffff;
+    }
+
+    .footer-contact-item {
+      display: grid;
+      gap: 4px;
+    }
+
+    .footer-label {
+      color: #7dd3fc;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 44px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
     }
 
     .footer small {
-      color: #94a3b8;
+      display: block;
+      color: var(--dim);
     }
 
-    .light {
-      background: #eef6ff;
+    .footer-note {
+      color: var(--dim);
+      font-size: 12px;
+      text-align: right;
     }
 
-    .center {
-      text-align: center;
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 700ms ease, transform 700ms ease;
     }
 
-    @media (max-width: 900px) {
-      .hero-about-grid {
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes gridDrift {
+      from {
+        background-position: 0 0, 0 0;
+      }
+
+      to {
+        background-position: 58px 58px, 58px 58px;
+      }
+    }
+
+    @keyframes orbitGlow {
+      from {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      to {
+        transform: translate3d(48px, 36px, 0) scale(1.12);
+      }
+    }
+
+    @keyframes particleFloat {
+      from {
+        transform: translate3d(0, 110vh, 0) scale(0.7);
+      }
+
+      to {
+        transform: translate3d(var(--drift), -14vh, 0) scale(1);
+      }
+    }
+
+    @keyframes buttonShine {
+      0%,
+      62% {
+        transform: translateX(-120%) rotate(12deg);
+      }
+
+      100% {
+        transform: translateX(120%) rotate(12deg);
+      }
+    }
+
+    @keyframes dashboardFloat {
+      0%,
+      100% {
+        transform: rotateX(6deg) rotateY(-8deg) translateY(0);
+      }
+
+      50% {
+        transform: rotateX(4deg) rotateY(-5deg) translateY(-14px);
+      }
+    }
+
+    @keyframes floatSmall {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes floatCard {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes growBar {
+      from {
+        transform: scaleY(0.14);
+        opacity: 0.2;
+      }
+
+      to {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulseBar {
+      0%,
+      100% {
+        filter: saturate(1);
+      }
+
+      50% {
+        filter: saturate(1.5) brightness(1.12);
+      }
+    }
+
+    @keyframes spinSlow {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes radialGlow {
+      0%,
+      100% {
+        filter: saturate(1);
+      }
+
+      50% {
+        filter: saturate(1.4) brightness(1.08);
+      }
+    }
+
+    @keyframes drawLine {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .about-grid,
+      .platform-studio,
+      .analytics-section-grid {
         grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 600px;
+      }
+
+      .feature-grid,
+      .capability-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tech-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 76px;
+        right: 16px;
+        left: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.14);
+        border-radius: 20px;
+        background: rgba(2, 6, 23, 0.94);
+        box-shadow: var(--shadow);
+      }
+
+      .nav.is-open .nav-links {
+        display: flex;
+      }
+
+      .nav-links a,
+      .nav-links .btn {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .hero {
+        padding-top: 62px;
+      }
+
+      .hero-proof,
+      .why-grid,
+      .automation-grid,
+      .infra-grid,
+      .security-grid,
+      .comm-grid,
+      .team-grid,
+      .footer-grid,
+      .product-panel-grid,
+      .big-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-note {
+        text-align: left;
+      }
+
+      .automation-rail {
+        grid-template-columns: 1fr;
+      }
+
+      .rail-node::after {
+        top: auto;
+        right: 50%;
+        bottom: -12px;
+        width: 2px;
+        height: 14px;
+      }
+
+      .dashboard-shell {
+        position: relative;
+        inset: auto;
+        transform: none;
+      }
+
+      .dashboard-body,
+      .analytics-top,
+      .group-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: auto;
+      }
+
+      .dashboard-product img {
+        height: auto;
+        max-height: none;
+      }
+
+      .floating-card,
+      .terminal-panel,
+      .cloud-node {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        left: auto;
+        top: auto;
+        width: 100%;
+        margin-top: 14px;
+      }
+
+      .cloud-node {
+        width: 138px;
+        height: 138px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 24px, 1180px);
+      }
+
+      .section {
+        padding: 76px 0;
+      }
+
+      .section.compact {
+        padding: 64px 0;
+      }
+
+      .brand-name {
+        max-width: 210px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .brand-tag {
+        display: none;
+      }
+
+      .hero-actions,
+      .cta-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .feature-grid,
+      .capability-grid,
+      .tech-grid,
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      .product-thumb img {
+        height: 190px;
+      }
+
+      .dashboard-body,
+      .platform-visual,
+      .studio-panel,
+      .about-card,
+      .why-card,
+      .feature-card,
+      .tech-card,
+      .capability-card,
+      .automation-card,
+      .security-card,
+      .team-card,
+      .subgroup {
+        padding: 18px;
+      }
+
+      .team-card {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow-step {
+        grid-template-columns: 38px 1fr;
+      }
+
+      .workflow-step .signal {
+        display: none;
+      }
+
+      .infra-map {
+        grid-column: auto !important;
+        min-height: 560px;
+      }
+
+      .map-node {
+        left: 50%;
+        right: auto;
+        animation: none;
+        transform: translateX(-50%);
+      }
+
+      .node-a {
+        top: 38px;
+      }
+
+      .node-b {
+        top: 150px;
+      }
+
+      .node-c {
+        bottom: 150px;
+      }
+
+      .node-d {
+        bottom: 38px;
+      }
+
+      .map-core {
+        width: 136px;
+        height: 136px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-one"></span>
+    <span class="orb orb-two"></span>
+    <span class="orb orb-three"></span>
+  </div>
+  <div class="particles" id="particles" aria-hidden="true"></div>
 
-  <!-- HERO + ABOUT -->
-  <section>
-    <div class="container hero-about-grid">
-      <div class="hero-card">
-        <img src="logo.png" class="logo">
-        <h1>AI-Powered Retail Engagement Platform</h1>
-        <p>Drive growth through intelligent campaigning, loyalty automation, and deep customer insights.</p>
-        <a href="#" class="btn">Request Demo</a>
-      </div>
-      <div class="about-card">
-        <h2>About Us</h2>
-        <p>
-          GYASEE AI SOLUTIONS PRIVATE LIMITED builds an AI-Powered Retail SaaS Platform focused on 
-          Hyper-Personalized Engagement, Loyalty Automation & Analytics. Gyasee transforms 
-          customer data into high-converting campaigns and long-term loyalty systems that 
-          integrate seamlessly with your retail operations.
-        </p>
-      </div>
-    </div>
-  </section>
+  <nav class="nav" id="siteNav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="GYASEE home">
+        <img src="logo.png" class="brand-logo" alt="GYASEE logo">
+        <span class="brand-copy">
+          <span class="brand-name">GYASEE AI</span>
+          <span class="brand-tag">Retail intelligence cloud</span>
+        </span>
+      </a>
 
-  <!-- FEATURES -->
-  <section class="light">
-    <div class="container">
-      <h2>Core Features</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Customer Analytics</h3>
-          <p>Understand your customers with actionable insights and predictive behavior mapping.</p>
-        </div>
-        <div class="card">
-          <h3>Loyalty & Rewards</h3>
-          <p>Build lasting relationships with automated reward systems and personalized incentives.</p>
-        </div>
-        <div class="card">
-          <h3>Campaign Management</h3>
-          <p>Execute high-impact, multi-channel campaigns driven by AI-powered segmentation.</p>
-        </div>
-        <div class="card">
-          <h3>Reports & Dashboard</h3>
-          <p>Track campaign ROI and loyalty growth through real-time performance dashboards.</p>
-        </div>
-        <div class="card">
-          <h3>Hyperlocal Commerce</h3>
-          <p>Launch quick commerce-ready offers to capture local demand instantly.</p>
-        </div>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#platform">Platform</a>
+        <a href="#automation">Automation</a>
+        <a href="#stack">Stack</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#final-cta">Request Demo</a>
       </div>
     </div>
-  </section>
+  </nav>
 
-  <!-- TECH -->
-  <section class="light">
-    <div class="container">
-      <h2>Technology Stack</h2>
-      <div class="grid grid-2">
-        <div class="card">Node.js Microservices</div>
-        <div class="card">MongoDB + Redis</div>
-        <div class="card">Next.js Frontend</div>
-        <div class="card">Cloud Infrastructure</div>
-        <div class="card">AI & Data Science</div>
-        <div class="card">Java</div>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>AI-powered retail SaaS for scalable growth</div>
+          <h1><span class="gradient-text">AI-Powered Retail Engagement Platform</span></h1>
+          <p class="hero-lede">Drive growth through intelligent campaigning, loyalty automation, and deep customer insights. Gyasee turns everyday retail transactions into automated revenue systems.</p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#final-cta">Request Demo</a>
+            <a class="btn" href="#platform">Explore Platform</a>
+          </div>
+
+          <div class="hero-proof">
+            <div class="proof-card">
+              <span class="proof-number"><span data-counter data-target="24">0</span>/7</span>
+              <span class="proof-label">Automation engine</span>
+            </div>
+            <div class="proof-card">
+              <span class="proof-number"><span data-counter data-target="3">0</span>x</span>
+              <span class="proof-label">Omnichannel reach</span>
+            </div>
+            <div class="proof-card">
+              <span class="proof-number"><span data-counter data-target="100">0</span>%</span>
+              <span class="proof-label">Cloud-native foundation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="Animated product dashboard preview">
+          <div class="floating-card floating-one">
+            <strong><span data-counter data-target="92">0</span>%</strong>
+            <span>Repeat purchase prediction confidence</span>
+          </div>
+
+          <div class="dashboard-shell">
+            <div class="window-bar">
+              <div class="window-dots"><span></span><span></span><span></span></div>
+              <div class="window-status"><span class="eyebrow-dot"></span>Live retail graph</div>
+            </div>
+
+            <div class="dashboard-product">
+              <img src="detals dashboard main page.png" alt="Gyasee dashboard showing sales, customers, campaigns, loyalty, AI insights, and real-time activity">
+            </div>
+          </div>
+
+          <div class="terminal-panel">
+            <div class="terminal-line"><span>$</span><span>gyasee.ai segment --predict-repeat</span></div>
+            <div class="terminal-line"><span>></span><span>cohort: high-intent shoppers</span></div>
+            <div class="terminal-line"><span>></span><span>trigger: whatsapp + loyalty reward</span></div>
+            <div class="terminal-line"><span>></span><span>status: automation deployed</span></div>
+          </div>
+
+          <div class="floating-card floating-two">
+            <strong><span data-counter data-target="360">0</span>k</strong>
+            <span>Customer events processed through cloud pipelines</span>
+          </div>
+
+          <div class="cloud-node" aria-hidden="true"><span class="cloud-core"></span></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PLATFORM CAPABILITIES PREMIUM -->
-  <section class="platform-section">
-    <div class="container platform-inner">
-
-      <div class="platform-heading">
-        <h2>Platform Capabilities</h2>
+    <section class="section compact" id="about">
+      <div class="container about-grid">
+        <div class="section-heading reveal">
+          <span class="kicker">About Us</span>
+          <h2>Built for retailers ready to operate with AI at the core.</h2>
+        </div>
+        <div class="about-card glass-card reveal">
+          <h2>GYASEE AI SOLUTIONS PRIVATE LIMITED</h2>
+          <p>
+            GYASEE AI SOLUTIONS PRIVATE LIMITED builds an AI-Powered Retail SaaS Platform focused on
+            Hyper-Personalized Engagement, Loyalty Automation & Analytics. Gyasee transforms
+            customer data into high-converting campaigns and long-term loyalty systems that
+            integrate seamlessly with your retail operations.
+          </p>
+        </div>
       </div>
+    </section>
 
-      <p class="platform-description">
-        Gaysee is already powering retailers in production by transforming everyday billing transactions into actionable customer intelligence,
-        automated engagement, and revenue growth systems.
-      </p>
-
-      <!-- TOP HIGHLIGHTS -->
-      <div class="platform-feature-grid">
-
-        <div class="platform-highlight" style="border-left:5px solid #146FB5;">
-          <h3>AI-Driven Retail Intelligence</h3>
-          <p>Convert billing data into real-time customer insights, segmentation, and predictive analytics.</p>
+    <section class="section compact" id="why">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">Why Gyasee</span>
+          <h2>Enterprise intelligence without enterprise drag.</h2>
+          <p>Gyasee connects customer data, campaign execution, loyalty systems, and analytics in one AI-native operating layer for retail growth.</p>
         </div>
 
-        <div class="platform-highlight" style="border-left:5px solid #7C3AED;">
-          <h3>Automated Customer Engagement</h3>
-          <p>Trigger campaigns automatically based on purchase behavior and customer lifecycle.</p>
+        <div class="why-grid">
+          <div class="why-card glass-card reveal">
+            <div class="card-icon">01</div>
+            <h3>Revenue-first AI</h3>
+            <p>Every workflow is shaped around measurable conversion, repeat purchase, and retention outcomes.</p>
+          </div>
+          <div class="why-card glass-card reveal">
+            <div class="card-icon purple">02</div>
+            <h3>Retail data ready</h3>
+            <p>Billing events, loyalty behavior, campaign engagement, and store activity become one customer graph.</p>
+          </div>
+          <div class="why-card glass-card reveal">
+            <div class="card-icon">03</div>
+            <h3>Scales with stores</h3>
+            <p>Designed for single-store operators, expanding chains, and centralized retail teams.</p>
+          </div>
         </div>
-
-        <div class="platform-highlight" style="border-left:5px solid #146FB5;">
-          <h3>Omnichannel Communication</h3>
-          <p>Deliver digital bills and campaigns through WhatsApp, SMS, and Email seamlessly.</p>
-        </div>
-
-        <div class="platform-highlight" style="border-left:5px solid #7C3AED;">
-          <h3>Scalable Multi-Store Platform</h3>
-          <p>Manage single stores to large retail chains with centralized dashboards.</p>
-        </div>
-
       </div>
+    </section>
 
-      <!-- FEATURE GROUPS -->
-      <div class="platform-group">
-          <div class="platform-subgroup">
-            <h3 class="platform-group-title">Customer Intelligence</h3>
-            <div class="platform-mini-grid">
+    <section class="section compact" id="features">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="kicker">Core Features</span>
+          <h2>Everything needed to convert customer intelligence into action.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card glass-card reveal">
+            <div class="card-icon">CA</div>
+            <h3>Customer Analytics</h3>
+            <p>Understand your customers with actionable insights and predictive behavior mapping.</p>
+            <div class="product-thumb">
+              <img src="customer profile.png" alt="Gyasee customer profile screen with purchase behavior and AI recommendation">
+            </div>
+          </div>
+          <div class="feature-card glass-card reveal">
+            <div class="card-icon purple">LR</div>
+            <h3>Loyalty & Rewards</h3>
+            <p>Build lasting relationships with automated reward systems and personalized incentives.</p>
+            <div class="product-thumb">
+              <img src="loyality reward mobile.png" alt="Gyasee loyalty and rewards mobile screen">
+            </div>
+          </div>
+          <div class="feature-card glass-card reveal">
+            <div class="card-icon">CM</div>
+            <h3>Campaign Management</h3>
+            <p>Execute high-impact, multi-channel campaigns driven by AI-powered segmentation.</p>
+            <div class="product-thumb">
+              <img src="campaign builder.png" alt="Gyasee campaign builder with WhatsApp preview and AI suggestions">
+            </div>
+          </div>
+          <div class="feature-card glass-card reveal">
+            <div class="card-icon purple">DB</div>
+            <h3>Reports & Dashboard</h3>
+            <p>Track campaign ROI and loyalty growth through real-time performance dashboards.</p>
+            <div class="product-thumb">
+              <img src="report analitics mobileview.png" alt="Gyasee reports and analytics mobile dashboard">
+            </div>
+          </div>
+          <div class="feature-card glass-card reveal">
+            <div class="card-icon">HC</div>
+            <h3>Hyperlocal Commerce</h3>
+            <p>Launch quick commerce-ready offers to capture local demand instantly.</p>
+            <div class="product-thumb">
+              <img src="multichannel comm.png" alt="Gyasee multichannel communication screen with campaign message preview">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section platform-section" id="platform">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">Platform Capabilities</span>
+          <h2>The retail intelligence control plane.</h2>
+          <p>Gyasee is already powering retailers in production by transforming everyday billing transactions into actionable customer intelligence, automated engagement, and revenue growth systems.</p>
+        </div>
+
+        <div class="product-showcase glass-card reveal">
+          <img src="detals dashboard main page.png" alt="Main Gyasee dashboard with customer metrics, sales overview, segmentation, campaign performance, loyalty overview, and AI insights">
+        </div>
+
+        <div class="platform-studio">
+          <div class="studio-panel glass-card reveal">
+            <div class="panel-kicker">AI workflow</div>
+            <h3>From billing data to personalized growth loops.</h3>
+            <p style="margin-top: 12px;">A continuous operating system for capture, prediction, activation, reward, and measurement.</p>
+
+            <div class="workflow">
+              <div class="workflow-step">
+                <span class="icon-mark">01</span>
+                <div><strong>Ingest billing transactions</strong><span>Events stream from retail operations.</span></div>
+                <span class="signal"></span>
+              </div>
+              <div class="workflow-step">
+                <span class="icon-mark">02</span>
+                <div><strong>Build customer intelligence</strong><span>Profiles, segments, cohorts, CLV, and churn risk.</span></div>
+                <span class="signal"></span>
+              </div>
+              <div class="workflow-step">
+                <span class="icon-mark">03</span>
+                <div><strong>Automate engagement</strong><span>Campaigns fire across WhatsApp, SMS, and Email.</span></div>
+                <span class="signal"></span>
+              </div>
+              <div class="workflow-step">
+                <span class="icon-mark">04</span>
+                <div><strong>Optimize revenue</strong><span>Dashboards measure ROI, retention, and loyalty health.</span></div>
+                <span class="signal"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="platform-visual glass-card reveal">
+            <div class="analytics-top">
+              <div class="analytics-box">
+                <div class="panel-kicker">Conversion lift</div>
+                <div class="line-chart" aria-hidden="true">
+                  <svg viewBox="0 0 420 180" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="lineGradient" x1="0" x2="1">
+                        <stop offset="0%" stop-color="#38bdf8" />
+                        <stop offset="55%" stop-color="#8b5cf6" />
+                        <stop offset="100%" stop-color="#f472b6" />
+                      </linearGradient>
+                      <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.38" />
+                        <stop offset="100%" stop-color="#7c3aed" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path class="chart-fill" d="M0 145 C52 132 72 118 102 126 C150 139 162 75 205 86 C256 98 268 48 312 58 C355 68 370 31 420 34 L420 180 L0 180 Z"></path>
+                    <path class="chart-line" d="M0 145 C52 132 72 118 102 126 C150 139 162 75 205 86 C256 98 268 48 312 58 C355 68 370 31 420 34"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="analytics-box">
+                <div class="panel-kicker">AI confidence</div>
+                <div class="radial"></div>
+              </div>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric"><strong><span data-counter data-target="71">0</span>%</strong><span>Retention signals</span></div>
+              <div class="metric"><strong><span data-counter data-target="42">0</span>%</strong><span>Campaign ROI lift</span></div>
+              <div class="metric"><strong><span data-counter data-target="18">0</span>k</strong><span>Loyalty actions</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="capability-grid">
+          <div class="capability-card glass-card reveal">
+            <h3>AI-Driven Retail Intelligence</h3>
+            <p>Convert billing data into real-time customer insights, segmentation, and predictive analytics.</p>
+          </div>
+          <div class="capability-card glass-card reveal">
+            <h3>Automated Customer Engagement</h3>
+            <p>Trigger campaigns automatically based on purchase behavior and customer lifecycle.</p>
+          </div>
+          <div class="capability-card glass-card reveal">
+            <h3>Omnichannel Communication</h3>
+            <p>Deliver digital bills and campaigns through WhatsApp, SMS, and Email seamlessly.</p>
+          </div>
+          <div class="capability-card glass-card reveal">
+            <h3>Scalable Multi-Store Platform</h3>
+            <p>Manage single stores to large retail chains with centralized dashboards.</p>
+          </div>
+        </div>
+
+        <div class="group-grid">
+          <div class="subgroup glass-card reveal">
+            <h3>Customer Intelligence</h3>
+            <div class="mini-list">
               <div class="mini-feature"><span class="mini-dot"></span><p>Automatic customer capture & profiling</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>AI-powered segmentation & cohort analysis</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Customer lifetime value (CLV) tracking</p></div>
@@ -345,9 +2376,9 @@
             </div>
           </div>
 
-          <div class="platform-subgroup">
-            <h3 class="platform-group-title">Engagement & Campaign Automation</h3>
-            <div class="platform-mini-grid">
+          <div class="subgroup glass-card reveal">
+            <h3>Engagement & Campaign Automation</h3>
+            <div class="mini-list">
               <div class="mini-feature"><span class="mini-dot"></span><p>Omnichannel delivery (WhatsApp, SMS, Email)</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Real-time behavior-triggered campaigns</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>A/B testing for promotional offers</p></div>
@@ -355,9 +2386,9 @@
             </div>
           </div>
 
-          <div class="platform-subgroup">
-            <h3 class="platform-group-title">Loyalty & Rewards Engine</h3>
-            <div class="platform-mini-grid">
+          <div class="subgroup glass-card reveal">
+            <h3>Loyalty & Rewards Engine</h3>
+            <div class="mini-list">
               <div class="mini-feature"><span class="mini-dot"></span><p>Tiered loyalty programs (Silver, Gold, Platinum)</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Gamified reward systems & milestones</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Referral-based growth loops</p></div>
@@ -365,9 +2396,9 @@
             </div>
           </div>
 
-          <div class="platform-subgroup">
-            <h3 class="platform-group-title">Hyperlocal Growth</h3>
-            <div class="platform-mini-grid">
+          <div class="subgroup glass-card reveal">
+            <h3>Hyperlocal Growth</h3>
+            <div class="mini-list">
               <div class="mini-feature"><span class="mini-dot"></span><p>Geo-fenced promotional triggers</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Local demand-based flash sales</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Quick-commerce integration for local delivery</p></div>
@@ -375,40 +2406,447 @@
             </div>
           </div>
 
-          <div class="platform-subgroup">
-            <h3 class="platform-group-title">Analytics & Insights</h3>
-            <div class="platform-mini-grid">
+          <div class="subgroup glass-card reveal">
+            <h3>Analytics & Insights</h3>
+            <div class="mini-list">
               <div class="mini-feature"><span class="mini-dot"></span><p>Campaign ROI & Conversion tracking</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Loyalty program health & retention metrics</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Product affinity & cross-sell analysis</p></div>
               <div class="mini-feature"><span class="mini-dot"></span><p>Automated executive performance reports</p></div>
             </div>
           </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- TEAM -->
-  <section>
-    <div class="container">
-      <h2>Founding Team</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Aryan Chauhan</h3>
-          <p>Founder & Director</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="section compact" id="automation">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">AI Automation</span>
+          <h2>Campaigns that react to customer behavior in real time.</h2>
+          <p>Automate lifecycle journeys, offer personalization, win-back flows, reward triggers, and executive reports without manual campaign operations.</p>
+        </div>
+
+        <div class="automation-grid">
+          <div class="automation-card glass-card reveal">
+            <div class="card-icon">TR</div>
+            <h3>Behavior triggers</h3>
+            <p>Launch journeys when customers buy, lapse, redeem, refer, or move into a high-value cohort.</p>
+          </div>
+          <div class="automation-card glass-card reveal">
+            <div class="card-icon purple">AI</div>
+            <h3>Adaptive personalization</h3>
+            <p>Messages and incentives are shaped by purchase history, lifecycle stage, affinity, and predicted next action.</p>
+          </div>
+          <div class="automation-card glass-card reveal">
+            <div class="card-icon">AB</div>
+            <h3>Continuous optimization</h3>
+            <p>A/B testing, ROI tracking, and conversion intelligence keep campaigns improving over time.</p>
+          </div>
+        </div>
+
+        <div class="automation-rail reveal" aria-label="AI automation workflow">
+          <div class="rail-node">Billing event</div>
+          <div class="rail-node">AI segment</div>
+          <div class="rail-node">Offer rule</div>
+          <div class="rail-node">Channel send</div>
+          <div class="rail-node">ROI report</div>
+        </div>
+
+        <div class="product-panel-grid">
+          <div class="product-panel glass-card reveal">
+            <img src="campaign builder.png" alt="Campaign builder showing WhatsApp message preview, personalization options, and AI suggestions">
+          </div>
+          <div class="product-panel glass-card reveal">
+            <img src="customer profile.png" alt="Customer profile screen showing loyalty points, purchase behavior, and AI recommendation">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="cloud">
+      <div class="container infra-grid">
+        <div class="section-heading reveal">
+          <span class="kicker">Cloud Infrastructure</span>
+          <h2>Cloud-native retail systems built for scale.</h2>
+          <p>Gyasee combines Node.js microservices, MongoDB, Redis, Java services, AI & Data Science, and cloud infrastructure into a resilient SaaS foundation.</p>
+        </div>
+
+        <div class="infra-map glass-card reveal" style="grid-column: span 2;">
+          <div class="map-grid"></div>
+          <div class="map-node node-a">Node.js Microservices</div>
+          <div class="map-node node-b">MongoDB + Redis</div>
+          <div class="map-node node-c">AI Pipelines</div>
+          <div class="map-node node-d">Cloud Dashboards</div>
+          <div class="map-core">GYASEE CLOUD</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="analytics">
+      <div class="container analytics-section-grid">
+        <div class="section-heading reveal">
+          <span class="kicker">Real-Time Analytics</span>
+          <h2>See retention, loyalty, campaigns, and product affinity as they move.</h2>
+          <p>Analytics dashboards transform raw retail activity into executive performance reports, conversion trends, cohort movement, and product-level growth opportunities.</p>
+
+          <div class="big-stats">
+            <div class="big-stat glass-card">
+              <strong><span data-counter data-target="99">0</span>%</strong>
+              <span>Dashboard uptime target</span>
+            </div>
+            <div class="big-stat glass-card">
+              <strong><span data-counter data-target="12">0</span>+</strong>
+              <span>Growth signal types</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-panel glass-card reveal">
+          <img src="report analitics mobileview.png" alt="Reports and analytics screen showing revenue overview and top categories">
+          <div class="metric-row">
+            <div class="metric"><strong>CLV</strong><span>Lifetime value tracking</span></div>
+            <div class="metric"><strong>ROI</strong><span>Campaign attribution</span></div>
+            <div class="metric"><strong>SKU</strong><span>Product affinity</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="security">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">Security & Scalability</span>
+          <h2>Enterprise-grade controls for growing retail networks.</h2>
+          <p>Gyasee is designed around reliable operations, centralized visibility, and scalable multi-store management.</p>
+        </div>
+
+        <div class="security-grid">
+          <div class="security-card glass-card reveal">
+            <div class="card-icon">MS</div>
+            <h3>Multi-store control</h3>
+            <p>Manage single stores to large retail chains with centralized dashboards and store-specific localized campaigns.</p>
+          </div>
+          <div class="security-card glass-card reveal">
+            <div class="card-icon purple">RL</div>
+            <h3>Resilient data layer</h3>
+            <p>Cloud infrastructure, MongoDB, Redis, and microservices support high-volume retail event processing.</p>
+          </div>
+          <div class="security-card glass-card reveal">
+            <div class="card-icon">OP</div>
+            <h3>Operational visibility</h3>
+            <p>Automated executive reports keep teams aligned on performance, retention, and loyalty health.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="communication">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">Omnichannel Communication</span>
+          <h2>Reach customers where action happens.</h2>
+          <p>Deliver digital bills, personalized campaigns, rewards, and lifecycle messages through connected communication channels.</p>
+        </div>
+
+        <div class="product-panel wide comm-showcase glass-card reveal">
+          <img src="multichannel comm.png" alt="Multi-channel communication dashboard for WhatsApp, Email, and SMS campaign performance">
+        </div>
+
+        <div class="comm-grid">
+          <div class="comm-card glass-card reveal">
+            <div class="comm-orbit"><span>WA</span></div>
+            <h3>WhatsApp</h3>
+            <p>Send digital bills, personalized offers, and loyalty messages through high-intent customer conversations.</p>
+          </div>
+          <div class="comm-card glass-card reveal">
+            <div class="comm-orbit"><span>SMS</span></div>
+            <h3>SMS</h3>
+            <p>Trigger fast promotional alerts, retention reminders, and local demand campaigns at scale.</p>
+          </div>
+          <div class="comm-card glass-card reveal">
+            <div class="comm-orbit"><span>EM</span></div>
+            <h3>Email</h3>
+            <p>Deliver rich campaign content, executive reports, and lifecycle communications for loyal customers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="stack">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="kicker">Technology Stack</span>
+          <h2>Developer-tool style infrastructure for retail intelligence.</h2>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-card glass-card reveal" style="--delay: 0s;">
+            <span class="tech-glyph">JS</span>
+            <strong>Node.js Microservices</strong>
+          </div>
+          <div class="tech-card glass-card reveal" style="--delay: -0.8s;">
+            <span class="tech-glyph">DB</span>
+            <strong>MongoDB + Redis</strong>
+          </div>
+          <div class="tech-card glass-card reveal" style="--delay: -1.6s;">
+            <span class="tech-glyph">NX</span>
+            <strong>Next.js Frontend</strong>
+          </div>
+          <div class="tech-card glass-card reveal" style="--delay: -2.4s;">
+            <span class="tech-glyph">CL</span>
+            <strong>Cloud Infrastructure</strong>
+          </div>
+          <div class="tech-card glass-card reveal" style="--delay: -3.2s;">
+            <span class="tech-glyph">AI</span>
+            <strong>AI & Data Science</strong>
+          </div>
+          <div class="tech-card glass-card reveal" style="--delay: -4s;">
+            <span class="tech-glyph">JV</span>
+            <strong>Java</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="team">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="kicker">Founding Team</span>
+          <h2>Building the AI layer for modern retail growth.</h2>
+        </div>
+
+        <div class="team-grid">
+          <div class="team-card glass-card reveal">
+            <div class="avatar">AC</div>
+            <div>
+              <h3>Aryan Chauhan</h3>
+              <span class="director-role">Founder & Director</span>
+              <p class="director-bio">Leads product vision, retail SaaS strategy, AI-driven engagement workflows, and growth systems for modern retailers.</p>
+            </div>
+          </div>
+
+          <div class="team-card glass-card reveal">
+            <div class="avatar">D2</div>
+            <div>
+              <h3>Director Name</h3>
+              <span class="director-role">Director</span>
+              <p class="director-bio">Responsible for operations, enterprise partnerships, compliance coordination, and scalable business execution. Update this card with the second director's exact details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section compact" id="faq">
+      <div class="container">
+        <div class="section-heading centered reveal">
+          <span class="kicker">FAQ</span>
+          <h2>Built for real retail operations.</h2>
+        </div>
+
+        <div class="faq-list reveal">
+          <div class="faq-item is-open">
+            <button class="faq-question" type="button">
+              <span>What does Gyasee help retailers automate?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Gyasee automates customer segmentation, lifecycle campaigns, loyalty rewards, digital communication, campaign reporting, and growth analytics.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Which channels does the platform support?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>The platform is designed for omnichannel delivery through WhatsApp, SMS, and Email, including digital bills and campaign communications.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Can Gyasee support multiple stores?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes. Gyasee supports single stores and large retail chains with centralized dashboards, store-level campaigns, and scalable cloud infrastructure.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>What analytics are included?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Campaign ROI, conversion tracking, loyalty health, retention metrics, customer lifetime value, churn prediction, product affinity, and automated executive reports.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta" id="final-cta">
+      <div class="container">
+        <div class="cta-panel reveal">
+          <span class="kicker">Ready for AI-native retail growth?</span>
+          <h2>Turn customer data into campaigns, loyalty, and measurable revenue.</h2>
+          <p>Request a demo of the Gyasee AI-Powered Retail Engagement Platform and see how automated intelligence can scale your retail operations.</p>
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="mailto:info@gyasee.com?subject=Gyasee%20Demo%20Request">Request Demo</a>
+            <a class="btn" href="#platform">View Capabilities</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer class="footer">
     <div class="container">
-      <p>GYASEE AI SOLUTIONS PRIVATE LIMITED</p>
-      <small>© 2026 GYASEE AI SOLUTIONS PRIVATE LIMITED. All rights reserved.</small>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="logo.png" class="footer-logo" alt="GYASEE logo">
+            <div>
+              <h3>GYASEE AI</h3>
+              <p>Retail intelligence cloud</p>
+            </div>
+          </div>
+          <p class="footer-about">
+            GYASEE AI SOLUTIONS PRIVATE LIMITED builds an AI-Powered Retail SaaS Platform focused on hyper-personalized engagement, loyalty automation, omnichannel campaigns, and real-time analytics for modern retailers.
+          </p>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <ul class="footer-list">
+            <li class="footer-contact-item">
+              <span class="footer-label">Email</span>
+              <a href="mailto:info@gyasee.com">info@gyasee.com</a>
+            </li>
+            <li class="footer-contact-item">
+              <span class="footer-label">Phone</span>
+              <span>Contact number to be updated</span>
+            </li>
+            <li class="footer-contact-item">
+              <span class="footer-label">Address</span>
+              <span>Registered office address to be updated</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Platform</h4>
+          <ul class="footer-list">
+            <li><a href="#features">Core Features</a></li>
+            <li><a href="#platform">Platform Capabilities</a></li>
+            <li><a href="#automation">AI Automation</a></li>
+            <li><a href="#analytics">Real-Time Analytics</a></li>
+            <li><a href="#communication">Omnichannel Communication</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Company</h4>
+          <ul class="footer-list">
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#team">Founding Team</a></li>
+            <li><a href="#security">Security & Scalability</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><span>CIN / GST details to be updated</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <small>&copy; 2026 GYASEE AI SOLUTIONS PRIVATE LIMITED. All rights reserved.</small>
+        <span class="footer-note">AI-Powered Retail Engagement Platform</span>
+      </div>
     </div>
   </footer>
 
+  <script>
+    const nav = document.getElementById("siteNav");
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
+    const particleLayer = document.getElementById("particles");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("is-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.addEventListener("click", (event) => {
+      if (event.target.tagName === "A") {
+        nav.classList.remove("is-open");
+        navToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("pointermove", (event) => {
+      document.documentElement.style.setProperty("--mouse-x", `${event.clientX}px`);
+      document.documentElement.style.setProperty("--mouse-y", `${event.clientY}px`);
+    });
+
+    if (!prefersReducedMotion) {
+      for (let index = 0; index < 58; index += 1) {
+        const particle = document.createElement("span");
+        particle.className = "particle";
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.setProperty("--duration", `${12 + Math.random() * 16}s`);
+        particle.style.setProperty("--opacity", `${0.2 + Math.random() * 0.7}`);
+        particle.style.setProperty("--drift", `${-90 + Math.random() * 180}px`);
+        particle.style.animationDelay = `${-Math.random() * 24}s`;
+        particleLayer.appendChild(particle);
+      }
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+
+    const counters = document.querySelectorAll("[data-counter]");
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const counter = entry.target;
+        const target = Number(counter.dataset.target);
+        const duration = 1200;
+        const start = performance.now();
+
+        const tick = (time) => {
+          const progress = Math.min((time - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = Math.round(target * eased).toLocaleString("en-IN");
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          }
+        };
+
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(counter);
+      });
+    }, { threshold: 0.65 });
+
+    counters.forEach((counter) => counterObserver.observe(counter));
+
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        item.classList.toggle("is-open");
+      });
+    });
+  </script>
 </body>
 
 </html>
